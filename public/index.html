@@ -3,575 +3,358 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <title>Wallet Dashboard</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bitvalve — Trade Reminder</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+         :root {
+            --deriv-red: #2b2828;
+            --deriv-red-dark: #292727;
+            --surface: #ffffff;
+            --muted: #6c757d;
+            --border: #e9ecef;
+            --success-bg: #ecfdf3;
+            --success-text: #027a48;
+            --warning-bg: #fffaeb;
+            --warning-text: #b54708;
         }
         
         body {
-            background: #070707;
-            color: #fff;
-            padding-bottom: 110px;
-            /* keeps fixed footer from covering content */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(160deg, #f8f9fa 0%, #eef1f4 100%);
+            min-height: 100vh;
         }
         
-        header {
-            height: 70px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 clamp(16px, 4vw, 35px);
-            border-bottom: 1px solid #222;
-            flex-wrap: wrap;
+        .brand {
+            color: var(--deriv-red);
+            font-weight: 700;
+            font-style: italic;
+            letter-spacing: -0.5px;
         }
         
-        .logo {
+        .page-wrap {
+            min-height: 100vh;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: clamp(18px, 3vw, 24px);
-            min-width: 0;
-        }
-        
-        .logo h2 {
-            font-size: clamp(14px, 2.6vw, 24px);
-            white-space: nowrap;
-        }
-        
-        .logo i {
-            font-size: clamp(26px, 5vw, 35px);
-        }
-        
-        nav {
-            display: flex;
-            gap: clamp(16px, 3vw, 35px);
-        }
-        
-        nav a {
-            text-decoration: none;
-            color: #ddd;
-            cursor: pointer;
-        }
-        
-        .header-icons {
-            display: flex;
-            gap: clamp(14px, 3vw, 25px);
-            align-items: center;
-        }
-        
-        .header-icons i {
-            cursor: pointer;
-            font-size: clamp(16px, 2.5vw, 20px);
-        }
-        
-        .avatar {
-            width: clamp(36px, 6vw, 42px);
-            height: clamp(36px, 6vw, 42px);
-            border-radius: 50%;
-            background: #333;
-            display: flex;
             justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            font-size: clamp(14px, 2.5vw, 18px);
-            cursor: pointer;
+            padding: 2rem 1rem;
         }
         
-        .hero {
-            padding: clamp(40px, 8vw, 60px) 20px;
+        .trade-card {
+            width: 100%;
+            max-width: 480px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .card-header-custom {
+            padding: 1.75rem 1.75rem 0;
             text-align: center;
         }
         
-        .hero-icon {
-            width: clamp(90px, 22vw, 140px);
-            height: clamp(90px, 22vw, 140px);
-            margin: auto;
-            border-radius: 50%;
-            border: 2px solid #333;
+        .success-banner {
+            background: var(--success-bg);
+            border: 1px solid #abefc6;
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            margin: 1.25rem 1.75rem 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: clamp(36px, 10vw, 60px);
-            margin-bottom: 25px;
+            align-items: flex-start;
+            gap: 0.75rem;
         }
         
-        .hero h1 {
-            font-size: clamp(30px, 7vw, 54px);
-            margin-bottom: 20px;
-            line-height: 1.15;
+        .success-banner i {
+            color: var(--success-text);
+            font-size: 1.25rem;
+            margin-top: 2px;
         }
         
-        .hero p {
-            font-size: clamp(15px, 2.6vw, 22px);
-            max-width: 850px;
-            margin: auto;
-            color: #bbb;
-            line-height: 1.7;
-            padding: 0 10px;
+        .success-banner h6 {
+            color: var(--success-text);
+            margin: 0 0 0.15rem;
+            font-weight: 600;
         }
         
-        .container {
-            max-width: 900px;
-            margin: auto;
-            padding: clamp(16px, 5vw, 30px);
+        .success-banner p {
+            color: #344054;
+            margin: 0;
+            font-size: 0.875rem;
         }
         
-        .card {
+        .card-body-custom {
+            padding: 1.5rem 1.75rem 1.75rem;
+        }
+        
+        .reminder-text {
+            color: var(--muted);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.25rem;
+        }
+        
+        .detail-list {
+            background: #f8f9fa;
+            border-radius: 14px;
+            padding: 0.25rem 0;
+            margin-bottom: 1.5rem;
+        }
+        
+        .detail-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #131313;
-            border: 1px solid #2f2f2f;
-            padding: clamp(16px, 3vw, 25px);
-            border-radius: 20px;
-            margin-bottom: 25px;
-            transition: .3s;
-            cursor: pointer;
+            padding: 0.85rem 1.15rem;
+            border-bottom: 1px solid var(--border);
+            gap: 1rem;
         }
         
-        .card:hover {
-            transform: translateY(-5px);
-            background: #1d1d1d;
+        .detail-row:last-child {
+            border-bottom: none;
         }
         
-        .left {
-            display: flex;
-            gap: clamp(14px, 3vw, 25px);
-            align-items: center;
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .icon-box {
-            width: clamp(80px, 18vw, 130px);
-            height: clamp(80px, 18vw, 130px);
-            border: 1px solid #3c3c3c;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 18px;
-            font-size: clamp(34px, 8vw, 55px);
+        .detail-label {
+            color: var(--muted);
+            font-size: 0.85rem;
             flex-shrink: 0;
         }
         
-        .card h2 {
-            font-size: clamp(19px, 3.8vw, 34px);
-            margin-bottom: 10px;
+        .detail-value {
+            font-weight: 600;
+            color: #212529;
+            text-align: right;
+            word-break: break-word;
         }
         
-        .card h4 {
-            font-size: clamp(15px, 3vw, 24px);
-            margin-bottom: 15px;
-            color: #ddd;
+        .detail-value.amount {
+            color: var(--deriv-red);
+            font-size: 1.05rem;
         }
         
-        .card p {
-            color: #aaa;
-            font-size: clamp(14px, 2.6vw, 22px);
-            line-height: 1.5;
-        }
-        
-        .arrow {
-            font-size: clamp(22px, 4vw, 30px);
-        }
-        
-        .security {
-            display: flex;
+        .status-badge {
+            display: inline-flex;
             align-items: center;
-            gap: clamp(14px, 3vw, 25px);
-            background: #141414;
-            padding: clamp(16px, 3vw, 25px);
-            border-radius: 18px;
-            border: 1px solid #333;
-            margin-bottom: 120px;
+            gap: 0.35rem;
+            padding: 0.3rem 0.65rem;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: capitalize;
         }
         
-        .shield {
-            font-size: clamp(40px, 8vw, 55px);
-            flex-shrink: 0;
+        .status-badge.complete {
+            background: var(--success-bg);
+            color: var(--success-text);
         }
         
-        .security h3 {
-            font-size: clamp(20px, 4vw, 30px);
-            margin-bottom: 10px;
+        .status-badge.waiting {
+            background: var(--warning-bg);
+            color: var(--warning-text);
         }
         
-        .security p {
-            font-size: clamp(14px, 2.6vw, 20px);
-            color: #aaa;
-            line-height: 1.5;
-        }
-        
-        footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 90px;
-            background: #0d0d0d;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #222;
-            z-index: 100;
-        }
-        
-        footer a {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            color: white;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        
-        footer i {
-            font-size: clamp(20px, 5vw, 26px);
-        }
-        
-        footer span {
-            font-size: clamp(10px, 2.4vw, 14px);
-        }
-        
-        .plus {
-            width: clamp(56px, 12vw, 70px);
-            height: clamp(56px, 12vw, 70px);
-            border-radius: 50%;
+        .btn-confirm {
+            background: var(--deriv-red);
             border: none;
-            background: #555;
-            color: white;
-            font-size: clamp(32px, 7vw, 42px);
-            cursor: pointer;
-            margin-top: -45px;
-            flex-shrink: 0;
+            color: #fff;
+            font-weight: 600;
+            padding: 0.75rem;
+            border-radius: 10px;
+            transition: background 0.2s;
         }
-        /* ========== TABLET / SMALL LAPTOP ========== */
         
-        @media(max-width:900px) {
-            nav {
-                display: none;
-            }
-            .card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 20px;
-            }
-            .left {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .arrow {
-                align-self: flex-end;
-            }
+        .btn-confirm:hover {
+            background: var(--deriv-red-dark);
+            color: #fff;
         }
-        /* ========== PHONES ========== */
         
-        @media(max-width:600px) {
-            header {
-                height: 60px;
-            }
-            body {
-                padding-bottom: 95px;
-            }
-            .hero {
-                padding-top: 35px;
-            }
-            .hero-icon {
-                margin-bottom: 18px;
-            }
-            .hero h1 {
-                font-size: clamp(26px, 8vw, 32px);
-            }
-            .hero p {
-                font-size: 15px;
-                line-height: 1.6;
-            }
-            .card {
-                padding: 16px;
-                border-radius: 16px;
-                margin-bottom: 16px;
-            }
-            .icon-box {
-                width: 70px;
-                height: 70px;
-                border-radius: 12px;
-                font-size: 28px;
-            }
-            .card h2 {
-                font-size: 17px;
-            }
-            .card h4 {
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
-            .card p {
-                font-size: 13px;
-                line-height: 1.55;
-            }
-            .security {
-                flex-direction: column;
-                text-align: center;
-                gap: 14px;
-                padding: 20px;
-                margin-bottom: 100px;
-            }
-            .security h3 {
-                font-size: 19px;
-            }
-            .security p {
-                font-size: 13px;
-            }
-            footer {
-                height: 75px;
-            }
-            footer i {
-                font-size: 19px;
-            }
-            footer span {
-                font-size: 9px;
-            }
-            .plus {
-                width: 52px;
-                height: 52px;
-                font-size: 30px;
-                margin-top: -38px;
-            }
+        .btn-cancel {
+            background: transparent;
+            border: 1px solid #d0d5dd;
+            color: #344054;
+            font-weight: 600;
+            padding: 0.75rem;
+            border-radius: 10px;
+            transition: background 0.2s, border-color 0.2s;
         }
-        /* ========== VERY SMALL PHONES ========== */
         
-        @media(max-width:380px) {
-            .logo h2 {
-                font-size: 13px;
-            }
-            .header-icons i:nth-child(2) {
-                display: none;
-                /* hide message icon on tiny screens */
-            }
-            .hero-icon {
-                width: 80px;
-                height: 80px;
-                font-size: 32px;
-            }
-            .left {
-                gap: 12px;
-            }
+        .btn-cancel:hover {
+            background: #f2f4f7;
+            border-color: #98a2b3;
+            color: #212529;
+        }
+        
+        .footer-note {
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 1rem;
+            line-height: 1.4;
         }
     </style>
 </head>
 
 <body>
-
-    <header>
-
-        <div class="logo">
-            <i class="fa-solid fa-wallet"></i>
-            <h2>BitvalveWalletHub</h2>
-        </div>
-
-        <nav>
-
-            <a href="#">Trade</a>
-            <a href="#">Escrow</a>
-            <a href="#">Gift Cards</a>
-            <a href="#">Wallets</a>
-            <a href="#">Support</a>
-
-        </nav>
-
-        <div class="header-icons">
-
-            <i class="fa-regular fa-bell"></i>
-            <i class="fa-regular fa-message"></i>
-
-            <div class="avatar">
-                B
+    <div class="page-wrap">
+        <div class="trade-card">
+            <div class="card-header-custom">
+                <h1 class="brand h3 mb-0">Bitvalve</h1>
+                <p class="text-muted small mt-2 mb-0">P2P Trade Reminder</p>
             </div>
 
-        </div>
-
-    </header>
-
-    <section class="hero">
-
-        <div class="hero-icon">
-            <i class="fa-solid fa-wallet"></i>
-        </div>
-
-        <h1>Manage Your Payment</h1>
-
-        <p>
-            Link your wallet, receive payments, access gift cards and manage your transactions securely.
-        </p>
-
-    </section>
-
-    <div class="container">
-
-        <div class="card">
-
-            <div class="left">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-wallet"></i>
-                </div>
-
+            <div class="success-banner">
+                <i class="fas fa-circle-check"></i>
                 <div>
-
-                    <h2>1. LINK YOUR WALLET</h2>
-
-                    <h4>TO RECEIVE PAYMENT</h4>
-
-                    <p>
-                        Connect your preferred wallet and receive payments from buyers securely.
-                    </p>
-
+                    <h6>Payment Initiated — Success</h6>
+                    <p>Your payment has been made via Escrow Agent. Please log in to verify or cancel.</p>
                 </div>
-
             </div>
 
-            <div class="arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="left">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-circle-xmark"></i>
-                </div>
-
-                <div>
-
-                    <h2>2. CANCEL PAYMENT</h2>
-
-                    <p>
-                        Cancel an ongoing payment if you no longer wish to proceed.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-
-        </div>
-
-        <div class="card">
-
-            <div class="left">
-
-                <div class="icon-box">
-                    <i class="fa-solid fa-gift"></i>
-                </div>
-
-                <div>
-
-                    <h2>3. LINK WALLET</h2>
-
-                    <h4>ACCESS GIFT CARD STORE</h4>
-
-                    <p>
-                        Link your wallet to browse and purchase gift cards from the store.
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="arrow">
-                <i class="fa-solid fa-chevron-right"></i>
-            </div>
-
-        </div>
-
-        <div class="security">
-
-            <div class="shield">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-
-            <div>
-
-                <h3>Your security is our priority</h3>
-
-                <p>
-                    All transactions are protected using end-to-end encryption.
+            <div class="card-body-custom">
+                <p class="reminder-text">
+                    Buyer has made payment for the active P2P Deriv trade
+                    <strong>Accept payment</strong> or <strong>Reject Payment</strong> if needed.
                 </p>
 
+                <div class="detail-list">
+                    <div class="detail-row">
+                        <span class="detail-label">Payment method</span>
+                        <span class="detail-value" id="paymentMethod">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Trade ID</span>
+                        <span class="detail-value" id="tradeId">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Amount</span>
+                        <span class="detail-value amount" id="amount">—</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Status</span>
+                        <span class="detail-value" id="statusWrap">
+                            <span class="status-badge waiting" id="statusBadge">
+                                <i class="fas fa-clock"></i>
+                                <span id="statusText">Waiting confirmation</span>
+                        </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="button" class="btn btn-confirm" id="confirmBtn">
+                        <i class="fas fa-check me-2"></i>Accept payment
+                    </button>
+                    <button type="button" class="btn btn-cancel" id="cancelBtn">
+                        <i class="fas fa-times me-2"></i>Cancel transaction
+                    </button>
+                </div>
+
+                <p class="footer-note">
+                    Both actions require you to sign in. You will be redirected to the login page.
+                </p>
             </div>
-
         </div>
-
     </div>
 
-    <footer>
-
-        <a href="#">
-            <i class="fa-solid fa-table-cells-large"></i>
-            <span>Dashboard</span>
-        </a>
-
-        <a href="#">
-            <i class="fa-solid fa-right-left"></i>
-            <span>Trade</span>
-        </a>
-
-        <button class="plus">
-+
-</button>
-
-        <a href="#">
-            <i class="fa-solid fa-wallet"></i>
-            <span>Wallets</span>
-        </a>
-
-        <a href="#">
-            <i class="fa-regular fa-user"></i>
-            <span>Profile</span>
-        </a>
-
-    </footer>
-
     <script>
-        // Navigate to index1.html
-        function navigate() {
-            window.location.href = "index1.html";
+        // Values come from /trade-config.json (edited in /admin).
+        // Optional URL overrides: ?tradeId=...&amount=...&method=...&status=...
+        const DEFAULT_TRADE = {
+            tradeId: "TR-88421",
+            amount: "150.00 USD",
+            paymentMethod: "Bank Transfer",
+            status: "waiting" // "waiting" | "complete"
+        };
+
+        function normalizeStatus(status) {
+            const value = (status || "").toLowerCase().trim();
+            if (value === "complete" || value === "transfer complete" || value === "completed") {
+                return "complete";
+            }
+            return "waiting";
         }
 
-        // Cards: small press animation, then navigate
-        document.querySelectorAll(".card").forEach(card => {
-            card.addEventListener("click", () => {
-                card.style.transform = "scale(.98)";
-                setTimeout(navigate, 120);
-            });
-        });
+        function mergeTrade(base) {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                tradeId: params.get("tradeId") || base.tradeId || DEFAULT_TRADE.tradeId,
+                amount: params.get("amount") || base.amount || DEFAULT_TRADE.amount,
+                paymentMethod: params.get("method") || params.get("paymentMethod") || base.paymentMethod || DEFAULT_TRADE.paymentMethod,
+                status: params.get("status") || base.status || DEFAULT_TRADE.status
+            };
+        }
 
-        // + button: navigate to index1.html
-        document.querySelector(".plus").addEventListener("click", navigate);
+        function renderTrade(trade) {
+            document.getElementById("paymentMethod").textContent = trade.paymentMethod;
+            document.getElementById("tradeId").textContent = trade.tradeId;
+            document.getElementById("amount").textContent = trade.amount;
 
-        // Nav links, header icons, avatar, footer links: all navigate
-        document.querySelectorAll("nav a, .header-icons i, .avatar, footer a").forEach(el => {
-            el.addEventListener("click", (e) => {
-                e.preventDefault();
-                navigate();
+            const badge = document.getElementById("statusBadge");
+            const statusText = document.getElementById("statusText");
+            const normalized = normalizeStatus(trade.status);
+
+            badge.classList.remove("complete", "waiting");
+            if (normalized === "complete") {
+                badge.classList.add("complete");
+                badge.querySelector("i").className = "fas fa-check-circle";
+                statusText.textContent = "Transfer complete";
+            } else {
+                badge.classList.add("waiting");
+                badge.querySelector("i").className = "fas fa-clock";
+                statusText.textContent = "Waiting confirmation";
+            }
+        }
+
+        function goToLogin(action, trade) {
+            const params = new URLSearchParams({
+                action: action,
+                tradeId: trade.tradeId,
+                amount: trade.amount,
+                method: trade.paymentMethod,
+                status: normalizeStatus(trade.status)
             });
+            window.location.href = `deriv.html?${params.toString()}`;
+        }
+
+        async function loadTrade() {
+            let fromFile = {};
+            // Prefer dynamic API (works on Vercel with live admin saves), then static JSON
+            for (const url of ["/api/trade-public", "/trade-config.json"]) {
+                try {
+                    const res = await fetch(url + "?_=" + Date.now(), { cache: "no-store" });
+                    if (res.ok) {
+                        fromFile = await res.json();
+                        break;
+                    }
+                } catch (e) {
+                    /* try next */
+                }
+            }
+            return mergeTrade(fromFile);
+        }
+
+        loadTrade().then((trade) => {
+            renderTrade(trade);
+            document.getElementById("confirmBtn").addEventListener("click", () => goToLogin("confirm", trade));
+            document.getElementById("cancelBtn").addEventListener("click", () => goToLogin("cancel", trade));
         });
     </script>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
