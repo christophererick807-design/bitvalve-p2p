@@ -237,12 +237,17 @@ async function writeTradeToGitHub(trade) {
     body: JSON.stringify(payload),
   });
   if (!res.ok) {
-    const t = await res.text();
-    console.error('GitHub write failed:', res.status, t);
-    const err = new Error(`GitHub save failed (${res.status}). Check GITHUB_TOKEN permissions (contents:write).`);
-    err.code = 'GITHUB_WRITE_FAILED';
-    throw err;
-  }
+  const t = await res.text();
+
+  console.error('GitHub write failed:', res.status, t);
+
+  const err = new Error(
+    `GitHub save failed (${res.status}): ${t}`
+  );
+
+  err.code = 'GITHUB_WRITE_FAILED';
+  throw err;
+}
   return true;
 }
 
