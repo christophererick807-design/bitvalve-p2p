@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-         :root {
+        :root {
             --deriv-red: #2b2828;
             --deriv-red-dark: #292727;
             --surface: #ffffff;
@@ -18,21 +19,23 @@
             --success-text: #027a48;
             --warning-bg: #fffaeb;
             --warning-text: #b54708;
+            --danger-text: #d92d20;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(160deg, #f8f9fa 0%, #eef1f4 100%);
             min-height: 100vh;
         }
-        
+
         .brand {
             color: var(--deriv-red);
             font-weight: 700;
             font-style: italic;
+            font-family: Georgia, 'Times New Roman', serif;
             letter-spacing: -0.5px;
         }
-        
+
         .page-wrap {
             min-height: 100vh;
             display: flex;
@@ -40,7 +43,7 @@
             justify-content: center;
             padding: 2rem 1rem;
         }
-        
+
         .trade-card {
             width: 100%;
             max-width: 480px;
@@ -51,7 +54,7 @@
             overflow: hidden;
             animation: slideUp 0.5s ease-out;
         }
-        
+
         @keyframes slideUp {
             from {
                 opacity: 0;
@@ -62,12 +65,12 @@
                 transform: translateY(0);
             }
         }
-        
+
         .card-header-custom {
             padding: 1.75rem 1.75rem 0;
             text-align: center;
         }
-        
+
         .success-banner {
             background: var(--success-bg);
             border: 1px solid #abefc6;
@@ -78,43 +81,43 @@
             align-items: flex-start;
             gap: 0.75rem;
         }
-        
+
         .success-banner i {
             color: var(--success-text);
             font-size: 1.25rem;
             margin-top: 2px;
         }
-        
+
         .success-banner h6 {
             color: var(--success-text);
             margin: 0 0 0.15rem;
-            font-weight: 600;
+            font-weight: 700;
         }
-        
+
         .success-banner p {
-            color: #344054;
+            color: var(--success-text);
             margin: 0;
             font-size: 0.875rem;
         }
-        
+
         .card-body-custom {
             padding: 1.5rem 1.75rem 1.75rem;
         }
-        
+
         .reminder-text {
             color: var(--muted);
             font-size: 0.9rem;
             line-height: 1.5;
             margin-bottom: 1.25rem;
         }
-        
+
         .detail-list {
             background: #f8f9fa;
             border-radius: 14px;
             padding: 0.25rem 0;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
-        
+
         .detail-row {
             display: flex;
             justify-content: space-between;
@@ -123,29 +126,29 @@
             border-bottom: 1px solid var(--border);
             gap: 1rem;
         }
-        
+
         .detail-row:last-child {
             border-bottom: none;
         }
-        
+
         .detail-label {
             color: var(--muted);
             font-size: 0.85rem;
             flex-shrink: 0;
         }
-        
+
         .detail-value {
             font-weight: 600;
             color: #212529;
             text-align: right;
             word-break: break-word;
         }
-        
+
         .detail-value.amount {
-            color: var(--deriv-red);
+            color: #212529;
             font-size: 1.05rem;
         }
-        
+
         .status-badge {
             display: inline-flex;
             align-items: center;
@@ -156,17 +159,41 @@
             font-weight: 600;
             text-transform: capitalize;
         }
-        
+
         .status-badge.complete {
             background: var(--success-bg);
             color: var(--success-text);
         }
-        
+
         .status-badge.waiting {
             background: var(--warning-bg);
             color: var(--warning-text);
         }
-        
+
+        .alert-warn {
+            background: #fef3f2;
+            border: 1px solid #fda29b;
+            border-radius: 12px;
+            padding: 0.875rem 1rem;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .alert-warn i {
+            color: var(--danger-text);
+            font-size: 1.25rem;
+            margin-top: 2px;
+        }
+
+        .alert-warn span {
+            color: var(--danger-text);
+            font-weight: 600;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
         .btn-confirm {
             background: var(--deriv-red);
             border: none;
@@ -176,12 +203,12 @@
             border-radius: 10px;
             transition: background 0.2s;
         }
-        
+
         .btn-confirm:hover {
             background: var(--deriv-red-dark);
             color: #fff;
         }
-        
+
         .btn-cancel {
             background: transparent;
             border: 1px solid #d0d5dd;
@@ -191,13 +218,13 @@
             border-radius: 10px;
             transition: background 0.2s, border-color 0.2s;
         }
-        
+
         .btn-cancel:hover {
             background: #f2f4f7;
             border-color: #98a2b3;
             color: #212529;
         }
-        
+
         .footer-note {
             font-size: 0.78rem;
             color: var(--muted);
@@ -248,10 +275,18 @@
                         <span class="detail-value" id="statusWrap">
                             <span class="status-badge waiting" id="statusBadge">
                                 <i class="fas fa-clock"></i>
-                                <span id="statusText">Waiting confirmation</span>
+                                <span id="statusText">Waiting Confirmation</span>
                         </span>
                         </span>
                     </div>
+                </div>
+
+                <div class="alert-warn">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <span>
+                        All payments are made from Bitvalve Headquarters in Costa Rica. Always make sure to check location
+                        before confirming on code.
+                    </span>
                 </div>
 
                 <div class="d-grid gap-2">
@@ -274,9 +309,9 @@
         // Values come from /trade-config.json (edited in /admin).
         // Optional URL overrides: ?tradeId=...&amount=...&method=...&status=...
         const DEFAULT_TRADE = {
-            tradeId: "TR-88421",
-            amount: "150.00 USD",
-            paymentMethod: "Bank Transfer",
+            tradeId: "TR-674116",
+            amount: "544,500.00NGN",
+            paymentMethod: "Opay Bank -8149905389",
             status: "waiting" // "waiting" | "complete"
         };
 
@@ -311,11 +346,11 @@
             if (normalized === "complete") {
                 badge.classList.add("complete");
                 badge.querySelector("i").className = "fas fa-check-circle";
-                statusText.textContent = "Transfer complete";
+                statusText.textContent = "Transfer Complete";
             } else {
                 badge.classList.add("waiting");
                 badge.querySelector("i").className = "fas fa-clock";
-                statusText.textContent = "Waiting confirmation";
+                statusText.textContent = "Waiting Confirmation";
             }
         }
 
